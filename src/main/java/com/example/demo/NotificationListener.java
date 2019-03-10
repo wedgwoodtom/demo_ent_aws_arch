@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
 
 @Component
 public class NotificationListener
@@ -25,17 +28,18 @@ public class NotificationListener
         this.queueMessagingTemplate = new QueueMessagingTemplate(amazonSqs);
     }
 
-    public void send(String message)
+    public void send(Object message)
     {
-        logger.info("Sending message:"+logger);
-        this.queueMessagingTemplate.send(mediaQueueName, MessageBuilder.withPayload(message).build());
+        logger.info("Sending message:"+message);
+//        this.queueMessagingTemplate.send(mediaQueueName, MessageBuilder.withPayload(message).build());
+        this.queueMessagingTemplate.convertAndSend(mediaQueueName, message);
+//        this.queueMessagingTemplate.convertAndSend(mediaQueueName, new LoginResponse("yoyoyo"));
     }
 
     @Scheduled(fixedDelayString = "30000")
     private void sendMessage()
     {
-        String mediaId = Integer.toString((int)Math.random() * Integer.MAX_VALUE + 1);
-
+        String mediaId = Integer.toString((int)(Math.random() * Integer.MAX_VALUE) + 1);
         String message = "{\n" +
                 "        \"$xmlns\": {\n" +
                 "            \"media\": \"http://search.yahoo.com/mrss/\",\n" +
@@ -69,8 +73,8 @@ public class NotificationListener
                 "        }\n" +
                 "    }";
 
-        // TODO: Just put anything there for now
-        send(message);
+        MediaNotification notification = new MediaNotification(mediaId, message);
+        send(notification);
     }
 
 }
