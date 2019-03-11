@@ -59,6 +59,12 @@
 			<version>2.7</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-elasticache</artifactId>
+			<version>1.11.415</version>
+		</dependency>
+
 		<!--<dependency>-->
 			<!--<groupId>org.springframework.retry</groupId>-->
 			<!--<artifactId>spring-retry</artifactId>-->

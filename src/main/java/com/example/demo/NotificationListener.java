@@ -1,17 +1,13 @@
 package com.example.demo;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Resource;
 
 @Component
 public class NotificationListener
@@ -31,14 +27,13 @@ public class NotificationListener
     public void send(Object message)
     {
         logger.info("Sending message:"+message);
-//        this.queueMessagingTemplate.send(mediaQueueName, MessageBuilder.withPayload(message).build());
         this.queueMessagingTemplate.convertAndSend(mediaQueueName, message);
-//        this.queueMessagingTemplate.convertAndSend(mediaQueueName, new LoginResponse("yoyoyo"));
     }
 
     @Scheduled(fixedDelayString = "30000")
     private void sendMessage()
     {
+        // Simulate Media Notification
         String mediaId = Integer.toString((int)(Math.random() * Integer.MAX_VALUE) + 1);
         String message = "{\n" +
                 "        \"$xmlns\": {\n" +
