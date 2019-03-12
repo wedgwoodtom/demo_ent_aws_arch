@@ -2,6 +2,8 @@ package com.example.demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,22 @@ import java.util.UUID;
 public class DataService
 {
     private static final Logger logger = LoggerFactory.getLogger(DataService.class);
+
+    // https://www.baeldung.com/spring-boot-evict-cache
+
+    @CachePut(value = "media", key="#key")
+    public String updateMedia(String key)
+    {
+        // TODO: Retrieve Key from DS
+
+        return String.format("%s -> %s", key, UUID.randomUUID().toString());
+    }
+
+    @CacheEvict(value = "media", key = "#key")
+    public void evictMedia(String key)
+    {
+        // Nothing
+    }
 
     @Cacheable("media")
     public String getMediaById(String key)
