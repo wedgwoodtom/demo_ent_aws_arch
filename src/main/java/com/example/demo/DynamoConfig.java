@@ -1,4 +1,4 @@
-package com.example.demo.db;
+package com.example.demo;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;

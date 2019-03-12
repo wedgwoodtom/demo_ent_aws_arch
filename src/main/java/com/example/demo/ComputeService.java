@@ -22,7 +22,6 @@ public class ComputeService
         return new LoginResponse("Some Data");
     }
 
-
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
@@ -33,6 +32,8 @@ public class ComputeService
     @SqsListener(value = "${media.notification.queue}")
     public void receiveMessage(String message, @Header("SenderId") String senderId)
     {
+        // TODO: Maybe do this as a Lambda
+
         logger.info("Received Message:"+message+ " from:"+senderId);
 
         MediaNotification notification = MediaNotification.from(message);
