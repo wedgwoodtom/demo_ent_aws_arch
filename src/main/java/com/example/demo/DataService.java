@@ -19,8 +19,7 @@ public class DataService
     @CachePut(value = "media", key="#key")
     public String updateMedia(String key)
     {
-        // TODO: Retrieve Key from DS
-
+        retrieveDataFromService(key);
         return String.format("%s -> %s", key, UUID.randomUUID().toString());
     }
 
@@ -33,15 +32,19 @@ public class DataService
     @Cacheable("media")
     public String getMediaById(String key)
     {
+        retrieveDataFromService(key);
+        return String.format("%s -> %s", key, UUID.randomUUID().toString());
+    }
+
+    private void retrieveDataFromService(String key)
+    {
         // TODO: Would lookup data here expensively - simulate with a 'pause'
-        logger.info("DS Query for key:"+key);
+        logger.info("    DS Query for key:"+key);
         try
         {
             Thread.sleep(4000);
         } catch (InterruptedException ignored)
         {
         }
-
-        return String.format("%s -> %s", key, UUID.randomUUID().toString());
     }
 }

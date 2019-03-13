@@ -26,8 +26,9 @@ public class NotificationListener
 
     public void send(Object message)
     {
-        logger.info("Sending message:"+message);
+        logger.info("--> Sending Queue Message for Notification:"+message);
         this.queueMessagingTemplate.convertAndSend(mediaQueueName, message);
+        logger.info("    Sent");
     }
 
     @Scheduled(fixedDelayString = "30000")
