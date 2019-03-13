@@ -42,7 +42,7 @@ public class CacheConfig
         }
     }
 
-    // AWS cache config with Elasticache
+    // AWS cache config with Elasticache - autoconfigures the client and looks up the cache by name (that's awesome)
     @Configuration
     @EnableElastiCache({
         @CacheClusterConfig(name = "media", expiration = 30)

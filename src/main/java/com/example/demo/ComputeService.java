@@ -35,29 +35,11 @@ public class ComputeService
         logger.info("<-- Queue Message:"+message+ " from:"+senderId);
         MediaNotification notification = MediaNotification.from(message);
 
-        // TEST - GET THIS WORKING WITH SPRING CACHE
-//        logger.info("Writing to Cache...");
-//        MemcachedCacheFactory factory = new MemcachedCacheFactory();
-//        try
-//        {
-//            SimpleSpringMemcached memCache = factory.createCache("media", "media.sodexk.cfg.usw2.cache.amazonaws.com", 11211);
-//            logger.info("--> put...");
-//            memCache.put("key", message);
-//            logger.info("done.");
-//            logger.info("<-- get...");
-//            memCache.get("key");
-//            logger.info("done.");
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-
         logger.info("--> Pre-Computing...");
         // Refresh media associated with the notification
         dataService.updateMedia(notification.getId());
-        dataService.getMediaById(notification.getId());
-        // TODO: Recompute data
+        dataService.getMediaById(notification.getId());         // Just to see that it was cached
+        // Recompute data...
 
         // Save computed data to Dynamo - just anything for now
         logger.info("--> Saving Computed Results...");
